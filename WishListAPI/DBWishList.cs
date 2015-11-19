@@ -203,6 +203,27 @@ namespace WishListAPI
 
         // ------------------------- WishList ----------------------------
 
+        public List<WishList> GetAllWishLists()
+        {
+            try
+            {
+                List<WishList> allWishLists = db.WishLists.Select(w => new WishList()
+                {
+                    id = w.ID,
+                    name = w.Name,
+                    ownerId = w.OwnerId,
+                }).ToList();
+
+                return allWishLists;
+            }
+            catch (Exception e)
+            {
+                writeToLog(e);
+                List<WishList> allWishLists = new List<WishList>();
+                return allWishLists;
+            }
+        }
+
         public List<WishList> GetAllWishListsForUser(int ownerId)
         {
             try
@@ -332,6 +353,32 @@ namespace WishListAPI
         }
 
         // ---------------------------- Wish ------------------------------
+
+        public List<Wish> GetAllWishes()
+        {
+            try
+            {
+                List<Wish> allWishes = db.Wishes.Select(w => new Wish()
+                {
+                    id = w.ID,
+                    name = w.Name,
+                    spesification = w.Spesification,
+                    image = w.Image,
+                    price = w.Price,
+                    where = w.Where,
+                    link = w.Link,
+                    wishListId = w.WishListId
+                }).ToList();
+
+                return allWishes;
+            }
+            catch (Exception e)
+            {
+                writeToLog(e);
+                List<Wish> allWishes = new List<Wish>();
+                return allWishes;
+            }
+        }
 
         public List<Wish> GetAllWishesForList(int wishListId)
         {
@@ -483,6 +530,27 @@ namespace WishListAPI
 
         // -------------------------- Sharing -----------------------------
         
+        public List<Sharing> GetAllSharings()
+        {
+            try
+            {
+                List<Sharing> allSharings = db.Sharings.Select(s => new Sharing()
+                {
+                    id = s.ID,
+                    userId = s.UserId,
+                    wishListId = s.WishListId
+                }).ToList();
+
+                return allSharings;
+            }
+            catch (Exception e)
+            {
+                writeToLog(e);
+                List<Sharing> allSharings = new List<Sharing>();
+                return allSharings;
+            }
+        }
+
         public Sharing GetSharing(int id)
         {
             try
@@ -508,334 +576,207 @@ namespace WishListAPI
             }
         }
 
-        // Create (husk virtual entall)
-        // Update (husk virtual entall)
-        // Delete
+        public bool CreateSharing(Sharing sharing)
+        {
+            var user = db.Users.Find(sharing.userId);
+            var wishList = db.WishLists.Find(sharing.wishListId);
+
+            var newSharing = new Sharings
+            {
+                UserId = sharing.userId,
+                WishListId = sharing.wishListId,
+                User = user,
+                WishList = wishList
+            };
+
+            try
+            {
+                // save sharing
+                db.Sharings.Add(newSharing);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                writeToLog(e);
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool UpdateSharing(int id, Sharing sharing)
+        {
+            Sharings foundSharing = db.Sharings.FirstOrDefault(s => s.ID == id);
+
+            if (foundSharing == null)
+                return false;
+
+            var user = db.Users.Find(sharing.userId);
+            var wishList = db.WishLists.Find(sharing.wishListId);
+
+            foundSharing.UserId = sharing.userId;
+            foundSharing.WishListId = sharing.wishListId;
+            foundSharing.User = user;
+            foundSharing.WishList = wishList;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                writeToLog(e);
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool DeleteSharing(int id)
+        {
+            try
+            {
+                Sharings foundSharing = db.Sharings.Find(id);
+
+                if (foundSharing == null)
+                    return false;
+
+                db.Sharings.Remove(foundSharing);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                writeToLog(e);
+                return false;
+            }
+
+            return true;
+        }
 
         // -------------------------- WishTip -----------------------------
 
-
-
-        /*
-        // -------------------------- Category ----------------------------
-
-        public List<Category> GetAllCategories()
+        public List<WishTip> GetAllWishTips()
         {
             try
             {
-                List<Category> allCategories = db.Categories.Select(c => new Category()
+                List<WishTip> allWishTips = db.WishTips.Select(w => new WishTip()
                 {
-                    id = c.ID,
-                    name = c.Name
+                    id = w.ID,
+                    senderId = w.SenderId,
+                    receiverId = w.ReceiverId,
+                    name = w.Name,
+                    spesification = w.Spesification,
+                    image = w.Image,
+                    price = w.Price,
+                    where = w.Where,
+                    link = w.Link
                 }).ToList();
 
-                return allCategories;
+                return allWishTips;
             }
             catch (Exception e)
             {
                 writeToLog(e);
-                List<Category> allCategories = new List<Category>();
-                return allCategories;
+                List<WishTip> allWishTips = new List<WishTip>();
+                return allWishTips;
             }
         }
 
-        public Category GetCategory(int id)
+        public List<WishTip> GetAllWishTipsForSender(int senderId)
         {
             try
             {
-                Categories oneDbCategory = db.Categories.Find(id);
+                List<WishTips> allDbWishTips = db.WishTips.ToList();
+                List<WishTip> outputWishTips = new List<WishTip>();
 
-                if (oneDbCategory == null)
-                    return null;
-
-                var oneCategory = new Category()
+                foreach (var wishTipDb in allDbWishTips)
                 {
-                    id = oneDbCategory.ID,
-                    name = oneDbCategory.Name
-                };
-
-                return oneCategory;
-            }
-            catch (Exception e)
-            {
-                writeToLog(e);
-                return null;
-            }
-        }
-
-        public bool CreateCategory(Category category)
-        {
-            var newCategory = new Categories
-            {
-                Name = category.name
-            };
-
-            try
-            {
-                // save category
-                db.Categories.Add(newCategory);
-                db.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                writeToLog(e);
-                return false;
-            }
-
-            return true;
-        }
-
-        public bool UpdateCategory(int id, Category category)
-        {
-            Categories foundCategory = db.Categories.FirstOrDefault(c => c.ID == id);
-
-            if (foundCategory == null)
-                return false;
-
-            foundCategory.Name = category.name;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                writeToLog(e);
-                return false;
-            }
-
-            return true;
-        }
-
-        public bool DeleteCategory(int id)
-        {
-            try
-            {
-                Categories foundCategory = db.Categories.Find(id);
-
-                if (foundCategory == null)
-                    return false;
-
-                db.Categories.Remove(foundCategory);
-                db.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                writeToLog(e);
-                return false;
-            }
-
-            return true;
-        }
-
-        // ----------------------------- FAQ ------------------------------
-
-        public List<FAQ> GetAllFAQs()
-        {
-            try
-            {
-                List<FAQ> allFAQs = db.FAQs.Select(f => new FAQ()
-                {
-                    id = f.ID,
-                    question = f.Question,
-                    answer = f.Answer,
-                    categoryId = f.CategoryId
-                }).ToList();
-
-                return allFAQs;
-            }
-            catch (Exception e)
-            {
-                writeToLog(e);
-                List<FAQ> allFAQs = new List<FAQ>();
-                return allFAQs;
-            }
-        }
-
-        public FAQ GetFAQ(int id)
-        {
-            try
-            {
-                FAQs oneDbFAQ = db.FAQs.Find(id);
-
-                if (oneDbFAQ == null)
-                    return null;
-
-                var oneFAQ = new FAQ()
-                {
-                    id = oneDbFAQ.ID,
-                    question = oneDbFAQ.Question,
-                    answer = oneDbFAQ.Answer,
-                    categoryId = oneDbFAQ.CategoryId
-                };
-
-                return oneFAQ;
-            }
-            catch (Exception e)
-            {
-                writeToLog(e);
-                return null;
-            }
-        }
-
-        public List<FAQ> GetFAQsFromCategory(int categoryId)
-        {
-            try
-            {
-                var dbFAQs = db.FAQs.ToList();
-                List<FAQ> FAQs = new List<FAQ>();
-
-                foreach (var faq in dbFAQs)
-                {
-                    if (faq.CategoryId == categoryId)
+                    if (wishTipDb.SenderId == senderId)
                     {
-                        var oneFAQ = new FAQ();
-                        oneFAQ.id = faq.ID;
-                        oneFAQ.question = faq.Question;
-                        oneFAQ.answer = faq.Answer;
-                        oneFAQ.categoryId = faq.CategoryId;
+                        WishTip wishTip = new WishTip();
+                        wishTip.id = wishTipDb.ID;
+                        wishTip.senderId = wishTipDb.SenderId;
+                        wishTip.receiverId = wishTipDb.ReceiverId;
+                        wishTip.name = wishTipDb.Name;
+                        wishTip.spesification = wishTipDb.Spesification;
+                        wishTip.image = wishTipDb.Image;
+                        wishTip.price = wishTipDb.Price;
+                        wishTip.where = wishTipDb.Where;
+                        wishTip.link = wishTipDb.Link;
 
-                        FAQs.Add(oneFAQ);
+                        outputWishTips.Add(wishTip);
                     }
                 }
 
-                return FAQs;
+                return outputWishTips;
             }
             catch (Exception e)
             {
                 writeToLog(e);
-                List<FAQ> FAQs = new List<FAQ>();
-                return FAQs;
+                List<WishTip> outputWishTips = new List<WishTip>();
+                return outputWishTips;
             }
         }
 
-        public bool CreateFAQ(FAQ faq)
-        {
-            var newFAQ = new FAQs
-            {
-                Question = faq.question,
-                Answer = faq.answer,
-                CategoryId = faq.categoryId
-            };
-
-            Categories foundCategory = db.Categories.Find(faq.categoryId);
-
-            if (foundCategory != null)
-                newFAQ.Category = foundCategory;
-            else
-                return false;
-
-            try
-            {
-                // save FAQ
-                db.FAQs.Add(newFAQ);
-                db.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                writeToLog(e);
-                return false;
-            }
-
-            return true;
-        }
-
-        public bool UpdateFAQ(int id, FAQ faq)
-        {
-            FAQs foundFAQ = db.FAQs.FirstOrDefault(f => f.ID == id);
-
-            if (foundFAQ == null)
-                return false;
-
-            foundFAQ.Question = faq.question;
-            foundFAQ.Answer = faq.answer;
-            foundFAQ.CategoryId = faq.categoryId;
-            foundFAQ.Category = db.Categories.Find(faq.categoryId);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                writeToLog(e);
-                return false;
-            }
-
-            return true;
-        }
-
-        public bool DeleteFAQ(int id)
+        public List<WishTip> GetAllWishTipsForReceiver(int receiverId)
         {
             try
             {
-                FAQs foundFAQ = db.FAQs.Find(id);
+                List<WishTips> allDbWishTips = db.WishTips.ToList();
+                List<WishTip> outputWishTips = new List<WishTip>();
 
-                if (foundFAQ == null)
-                    return false;
-
-                db.FAQs.Remove(foundFAQ);
-                db.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                writeToLog(e);
-                return false;
-            }
-
-            return true;
-        }
-
-        // ---------------------------- Request --------------------------
-
-        public List<Request> GetAllRequests()
-        {
-            try
-            {
-                List<Request> allRequests = db.Requests.Select(r => new Request()
+                foreach (var wishTipDb in allDbWishTips)
                 {
-                    id = r.ID,
-                    senderFirstName = r.SenderFirstName,
-                    senderLastName = r.SenderLastName,
-                    senderEmail = r.SenderEmail,
-                    subject = r.Subject,
-                    question = r.Question,
-                    date = r.Date,
-                    answered = r.Answered
-                }).ToList();
+                    if (wishTipDb.ReceiverId == receiverId)
+                    {
+                        WishTip wishTip = new WishTip();
+                        wishTip.id = wishTipDb.ID;
+                        wishTip.senderId = wishTipDb.SenderId;
+                        wishTip.receiverId = wishTipDb.ReceiverId;
+                        wishTip.name = wishTipDb.Name;
+                        wishTip.spesification = wishTipDb.Spesification;
+                        wishTip.image = wishTipDb.Image;
+                        wishTip.price = wishTipDb.Price;
+                        wishTip.where = wishTipDb.Where;
+                        wishTip.link = wishTipDb.Link;
 
-                return allRequests;
+                        outputWishTips.Add(wishTip);
+                    }
+                }
+
+                return outputWishTips;
             }
             catch (Exception e)
             {
                 writeToLog(e);
-                List<Request> allRequests = new List<Request>();
-                return allRequests;
+                List<WishTip> outputWishTips = new List<WishTip>();
+                return outputWishTips;
             }
         }
 
-        public Request GetRequest(int id)
+        public WishTip GetWishTip(int id)
         {
             try
             {
-                Requests oneDbRequest = db.Requests.Find(id);
+                WishTips oneDbWishTip = db.WishTips.Find(id);
 
-                if (oneDbRequest == null)
+                if (oneDbWishTip == null)
                     return null;
 
-                var oneRequest = new Request()
+                var oneWishTip = new WishTip()
                 {
-                    id = oneDbRequest.ID,
-                    senderFirstName = oneDbRequest.SenderFirstName,
-                    senderLastName = oneDbRequest.SenderLastName,
-                    senderEmail = oneDbRequest.SenderEmail,
-                    subject = oneDbRequest.Subject,
-                    question = oneDbRequest.Question,
-                    date = oneDbRequest.Date,
-                    answered = oneDbRequest.Answered
+                    id = oneDbWishTip.ID,
+                    senderId = oneDbWishTip.SenderId,
+                    receiverId = oneDbWishTip.ReceiverId,
+                    name = oneDbWishTip.Name,
+                    spesification = oneDbWishTip.Spesification,
+                    image = oneDbWishTip.Image,
+                    price = oneDbWishTip.Price,
+                    where = oneDbWishTip.Where,
+                    link = oneDbWishTip.Link
                 };
 
-                return oneRequest;
+                return oneWishTip;
             }
             catch (Exception e)
             {
@@ -844,23 +785,29 @@ namespace WishListAPI
             }
         }
 
-        public bool CreateRequest(Request request)
+        public bool CreateWishTip(WishTip wishTip)
         {
-            var newRequest = new Requests
+            var sender = db.Users.Find(wishTip.senderId);
+            var receiver = db.Users.Find(wishTip.receiverId);
+
+            var newWishTip = new WishTips
             {
-                SenderFirstName = request.senderFirstName,
-                SenderLastName = request.senderLastName,
-                SenderEmail = request.senderEmail,
-                Subject = request.subject,
-                Question = request.question,
-                Date = request.date,
-                Answered = request.answered
+                SenderId = wishTip.senderId,
+                ReceiverId = wishTip.receiverId,
+                Name = wishTip.name,
+                Spesification = wishTip.spesification,
+                Image = wishTip.image,
+                Price = wishTip.price,
+                Where = wishTip.where,
+                Link = wishTip.link,
+                Sender = sender,
+                Receiver = receiver
             };
 
             try
             {
-                // save request
-                db.Requests.Add(newRequest);
+                // save wish tip
+                db.WishTips.Add(newWishTip);
                 db.SaveChanges();
             }
             catch (Exception e)
@@ -872,20 +819,26 @@ namespace WishListAPI
             return true;
         }
 
-        public bool UpdateRequest(int id, Request request)
+        public bool UpdateWishTip(int id, WishTip wishTip)
         {
-            Requests foundRequest = db.Requests.FirstOrDefault(r => r.ID == id);
+            WishTips foundWishTip = db.WishTips.FirstOrDefault(w => w.ID == id);
 
-            if (foundRequest == null)
+            if (foundWishTip == null)
                 return false;
 
-            foundRequest.SenderFirstName = request.senderFirstName;
-            foundRequest.SenderLastName = request.senderLastName;
-            foundRequest.SenderEmail = request.senderEmail;
-            foundRequest.Subject = request.subject;
-            foundRequest.Question = request.question;
-            foundRequest.Date = request.date;
-            foundRequest.Answered = request.answered;
+            var sender = db.Users.Find(wishTip.senderId);
+            var receiver = db.Users.Find(wishTip.receiverId);
+
+            foundWishTip.SenderId = wishTip.senderId;
+            foundWishTip.ReceiverId = wishTip.receiverId;
+            foundWishTip.Name = wishTip.name;
+            foundWishTip.Spesification = wishTip.spesification;
+            foundWishTip.Image = wishTip.image;
+            foundWishTip.Price = wishTip.price;
+            foundWishTip.Where = wishTip.where;
+            foundWishTip.Link = wishTip.link;
+            foundWishTip.Sender = sender;
+            foundWishTip.Receiver = receiver;
 
             try
             {
@@ -900,16 +853,16 @@ namespace WishListAPI
             return true;
         }
 
-        public bool DeleteRequest(int id)
+        public bool DeleteWishTip(int id)
         {
             try
             {
-                Requests foundRequest = db.Requests.Find(id);
+                WishTips foundWishTip = db.WishTips.Find(id);
 
-                if (foundRequest == null)
+                if (foundWishTip == null)
                     return false;
 
-                db.Requests.Remove(foundRequest);
+                db.WishTips.Remove(foundWishTip);
                 db.SaveChanges();
             }
             catch (Exception e)
@@ -919,6 +872,6 @@ namespace WishListAPI
             }
 
             return true;
-        }*/
+        }
     }
 }
