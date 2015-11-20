@@ -1,7 +1,7 @@
 ﻿var App = angular.module("App", []);
 
 App.controller("wishListController", function ($scope, $http) {
-
+    /*
     var urlUser = '/api/User';
 
     $http.get(urlUser + "/Get/" + 1).
@@ -29,5 +29,5 @@ App.controller("wishListController", function ($scope, $http) {
         }).
         error(function (data, status) {
 
-        });
+        });*/
 });
