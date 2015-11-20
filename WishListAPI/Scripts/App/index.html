@@ -1,14 +1,19 @@
 ﻿<!DOCTYPE html>
 <html ng-app="App">
 <head>
-    <title></title>
+    <title>WishListAPI</title>
 	<meta charset="utf-8" />
+    <script type="text/javascript" src="../angular.min.js"></script>
+    <script type="text/javascript" src="../jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="controller.js"></script>
 </head>
 <body>
-    <h2>WishListAPI</h2>
+    <div ng-controller="wishListController">
+        <h2>WishListAPI</h2>
 
-    <div ng-show="loading">
-        Loading
+        <div ng-show="loading">
+            Loading
+        </div>
     </div>
 </body>
 </html>

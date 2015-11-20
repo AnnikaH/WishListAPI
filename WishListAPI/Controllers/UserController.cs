@@ -16,7 +16,8 @@ namespace WishListAPI.Controllers
     {
         DBWishList dbWishList = new DBWishList();
 
-        // GET api/User/LogIn
+        // GET api/User
+        [HttpGet, Route("{userName}/{password}")]
         public HttpResponseMessage LogIn(String userName, String password)
         {
             LoginUser loginUser = new LoginUser();
@@ -39,10 +40,9 @@ namespace WishListAPI.Controllers
                 Content = new StringContent("Ugyldig brukernavn eller passord.")
             };
         }
-
-        /*
-        // GET api/User/GetAllUsers
-        public HttpResponseMessage GetAllUsers()
+        
+        // GET api/User
+        public HttpResponseMessage Get()
         {
             List<User> allUsers = dbWishList.GetAllUsers();
 
@@ -55,7 +55,6 @@ namespace WishListAPI.Controllers
                 StatusCode = HttpStatusCode.OK
             };
         }
-        */
         
         // GET api/User/Get/5
         public HttpResponseMessage Get(int id)

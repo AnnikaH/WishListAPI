@@ -58,7 +58,7 @@ namespace WishListAPI.Models
         public int ID { get; set; }
         public String Name { get; set; }
         public int OwnerId { get; set; }    // foreign key from User
-
+        
         public virtual Users Owner { get; set; }
         
         public virtual List<Sharings> Sharings { get; set; }
@@ -92,6 +92,16 @@ namespace WishListAPI.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
+            modelBuilder.Entity<WishLists>()
+                .HasRequired(w => w.Owner)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<WishTips>()
+                .HasRequired(w => w.Sender)
+                .WithMany()
+                .WillCascadeOnDelete(false);
         }
     }
 }
