@@ -29,53 +29,9 @@ namespace WishListAPI.Controllers
             return ok;
         }*/
 
-        // GET api/User
-        public List<User> Get()
-        {
-            List<User> allUsers = dbWishList.GetAllUsers();
-
-            return allUsers;
-
-            /*
-            var Json = new JavaScriptSerializer();
-            string JsonString = Json.Serialize(allUsers);
-
-            return new HttpResponseMessage()
-            {
-                Content = new StringContent(JsonString, Encoding.UTF8, "application/json"),
-                StatusCode = HttpStatusCode.OK
-            };*/
-        }
-
-        // GET api/User/Get/5
-        public User Get(int id)
-        {
-            //User oneUser = dbWishList.GetUser(id);
-
-            User oneUser = new User();
-            oneUser.id = 1;
-            oneUser.userName = "petter";
-            oneUser.password = null;
-            oneUser.email = "petter@hotmail.com";
-            oneUser.phoneNumber = "98726172";
-            
-            return oneUser;
-
-            /*
-            var Json = new JavaScriptSerializer();
-            string JsonString = Json.Serialize(oneUser);
-
-            return new HttpResponseMessage()
-            {
-                Content = new StringContent(JsonString, Encoding.UTF8, "application/json"),
-                StatusCode = HttpStatusCode.OK
-            };*/
-        }
-
-        /*
-        // GET api/User
-        [HttpGet, Route("{userName}/{password}")]
-        public HttpResponseMessage LogIn(String userName, String password)
+        // Fungerer GET api/User/Login/noe/noe
+        [HttpGet, Route("LogIn/{userName}/{password}")]
+        public bool LogIn(String userName, String password)
         {
             LoginUser loginUser = new LoginUser();
             loginUser.userName = userName;
@@ -83,21 +39,9 @@ namespace WishListAPI.Controllers
 
             bool ok = dbWishList.UserInDb(loginUser);
 
-            if (ok)
-            {
-                return new HttpResponseMessage()
-                {
-                    StatusCode = HttpStatusCode.OK
-                };
-            }
-
-            return new HttpResponseMessage()
-            {
-                StatusCode = HttpStatusCode.NotFound,
-                Content = new StringContent("Ugyldig brukernavn eller passord.")
-            };
+            return ok;
         }
-        
+
         // GET api/User
         public HttpResponseMessage Get()
         {
@@ -192,6 +136,6 @@ namespace WishListAPI.Controllers
             {
                 StatusCode = HttpStatusCode.OK
             };
-        }*/
+        }
     }
 }

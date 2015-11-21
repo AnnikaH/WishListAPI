@@ -26,11 +26,18 @@ namespace WishListAPI
                 defaults: new { id = RouteParameter.Optional }
             );
 
+            // Fungerer:
             config.Routes.MapHttpRoute(
                 name: "DefaultApiLogIn",
-                routeTemplate: "api/{controller}/{action}/{userName}/{password}",
+                routeTemplate: "api/{controller}/LogIn/{userName}/{password}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            /*
+            config.Routes.MapHttpRoute(
+                name: "DefaultApiLogIn",
+                routeTemplate: "api/{controller}/LogIn/{loginUser}",
+                defaults: new { id = RouteParameter.Optional }
+            );*/
         }
     }
 }

@@ -25,15 +25,31 @@ App.controller("wishListController", function ($scope, $http) {
         });
 
     // LogIn
-
+    
+    // Fungerer:
     var userName = "noe";
     var password = "noe";
 
-    $http.get(urlUser + "/" + userName + "/" + password).
+    $http.get(urlUser + "/LogIn/" + userName + "/" + password).
         success(function (user) {
             $scope.loading = true;
         }).
         error(function (data, status) {
 
         });
+    /*
+    var loginUser = {
+        userName: "noe",
+        password: "noe"
+    }
+
+    loginUser = JSON.stringify(loginUser);
+
+    $http.get(urlUser + "/LogIn/" + loginUser).
+        success(function (user) {
+            $scope.loading = true;
+        }).
+        error(function (data, status) {
+
+        });*/
 });
