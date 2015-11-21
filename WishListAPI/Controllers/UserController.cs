@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -29,7 +29,7 @@ namespace WishListAPI.Controllers
             return ok;
         }*/
 
-        // Fungerer GET api/User/Login/noe/noe
+        /* Fungerer GET api/User/Login/noe/noe
         [HttpGet, Route("LogIn/{userName}/{password}")]
         public bool LogIn(String userName, String password)
         {
@@ -40,7 +40,7 @@ namespace WishListAPI.Controllers
             bool ok = dbWishList.UserInDb(loginUser);
 
             return ok;
-        }
+        }*/
 
         // GET api/User
         public HttpResponseMessage Get()
@@ -57,7 +57,7 @@ namespace WishListAPI.Controllers
             };
         }
         
-        // GET api/User/Get/5
+        // GET api/User/5
         public HttpResponseMessage Get(int id)
         {
             User oneUser = dbWishList.GetUser(id);
