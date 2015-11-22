@@ -99,6 +99,64 @@ namespace WishListAPI
             }
         }
 
+        public User GetUserByUserName(String userName)
+        {
+            try
+            {
+                Users foundUser = db.Users.FirstOrDefault(
+                    u => u.UserName == userName);
+
+                if (foundUser == null)
+                    return null;
+
+                var oneUser = new User()
+                {
+                    id = foundUser.ID,
+                    userName = foundUser.UserName,
+                    password = null,
+                    email = foundUser.Email,
+                    phoneNumber = foundUser.PhoneNumber
+                };
+
+                return oneUser;
+            }
+            catch (Exception e)
+            {
+                writeToLog(e);
+                return null;
+            }
+        }
+
+        public User GetUserByLogin(LoginUser loginUser)
+        {
+            try
+            {
+                byte[] passwordDB = CreateHash(loginUser.password);
+
+                Users foundUser = db.Users.FirstOrDefault(
+                    u => u.Password == passwordDB && u.UserName == loginUser.userName);
+
+                if (foundUser == null)
+                    return null;
+
+                var oneUser = new User()
+                {
+                    id = foundUser.ID,
+                    userName = foundUser.UserName,
+                    password = null,
+                    email = foundUser.Email,
+                    phoneNumber = foundUser.PhoneNumber
+                };
+
+                return oneUser;
+            }
+            catch (Exception e)
+            {
+                writeToLog(e);
+                return null;
+            }
+        }
+
         public bool UserInDb(LoginUser loginUser)
         {
             try
@@ -132,6 +190,18 @@ namespace WishListAPI
 
         public bool CreateUser(User user)
         {
+            // check if a user with the same username exists:
+
+            List<Users> users = db.Users.ToList();
+            
+            foreach(var oneUser in users)
+            {
+                if(oneUser.UserName.Equals(user.userName))
+                {
+                    return false;
+                }
+            }
+
             var newUser = new Users
             {
                 UserName = user.userName,

@@ -40,11 +40,11 @@ namespace WishListAPI
                 defaults: new { id = RouteParameter.Optional }
             );*/
 
-            /* Because of LoginController:
+            /* Because of Login:
             config.Routes.MapHttpRoute(
                 name: "DefaultApiLogIn",
-                routeTemplate: "api/{controller}/{userName}/{password}",
-                defaults: new { userName = RouteParameter.Optional, password = RouteParameter.Optional }
+                routeTemplate: "api/{controller}/LogIn/{userName}",
+                defaults: new { userName = RouteParameter.Optional }
             );*/
         }
     }

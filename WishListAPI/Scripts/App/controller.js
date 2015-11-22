@@ -1,7 +1,7 @@
 ﻿var App = angular.module("App", []);
 
 App.controller("wishListController", function ($scope, $http) {
-    
+
     // Get user with id 1
 
     var urlUser = '/api/User';
@@ -14,16 +14,6 @@ App.controller("wishListController", function ($scope, $http) {
         error(function (data, status) {
             
         });*/
-
-    // Get all users
-
-    $http.get(urlUser).
-        success(function (users) {
-
-        }).
-        error(function (data, status) {
-
-        });
 
     // LogIn
     
@@ -65,7 +55,7 @@ App.controller("wishListController", function ($scope, $http) {
         error(function (data, status) {
 
         });*/
-
+    /*
     var urlLogin = 'api/Login'
 
     var loginUser = {
@@ -88,7 +78,7 @@ App.controller("wishListController", function ($scope, $http) {
         error(function (data, status) {
 
         });
-
+        
     // Fungerer:
 
     var user = {
@@ -104,5 +94,19 @@ App.controller("wishListController", function ($scope, $http) {
           }).
           error(function (data, status) {
               
+          });
+    */
+    // LoginUser in Get-method:
+    var login = {
+        userName: "noen",
+        password: "måinneholdeåttetegn"
+    };
+
+    $http.get(urlUser, login).
+          success(function (data) {
+
+          }).
+          error(function (data, status) {
+
           });
 });
