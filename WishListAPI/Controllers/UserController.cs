@@ -164,7 +164,7 @@ namespace WishListAPI.Controllers
         public HttpResponseMessage Get(int id)
         {
             User oneUser = dbWishList.GetUser(id);
-
+            
             var Json = new JavaScriptSerializer();
             string JsonString = Json.Serialize(oneUser);
 
