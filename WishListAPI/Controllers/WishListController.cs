@@ -99,7 +99,7 @@ namespace WishListAPI.Controllers
             };
         }
 
-        // GET api/WishList/Get/5
+        /* GET api/WishList/5
         public HttpResponseMessage Get(int id)
         {
             WishList oneWishList = dbWishList.GetWishList(id);
@@ -112,7 +112,7 @@ namespace WishListAPI.Controllers
                 Content = new StringContent(JsonString, Encoding.UTF8, "application/json"),
                 StatusCode = HttpStatusCode.OK
             };
-        }
+        }*/
 
         // POST api/WishList
         public HttpResponseMessage Post(WishList wishList)
