@@ -130,7 +130,9 @@
     <Compile Include="Controllers\TipController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WishController.cs" />
+    <Compile Include="Controllers\WishHelperController.cs" />
     <Compile Include="Controllers\WishListController.cs" />
+    <Compile Include="Controllers\WishListHelperController.cs" />
     <Compile Include="DBWishList.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

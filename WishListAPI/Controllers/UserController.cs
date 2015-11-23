@@ -17,141 +17,12 @@ namespace WishListAPI.Controllers
         DBWishList dbWishList = new DBWishList();
 
         /* GET api/User
-        // [HttpGet, Route("{userName}/{password}")]
-        public bool LogIn(String userName, String password)
-        {
-            LoginUser loginUser = new LoginUser();
-            loginUser.userName = userName;
-            loginUser.password = password;
-
-            bool ok = dbWishList.UserInDb(loginUser);
-
-            return ok;
-        }*/
-
-        /* Fungerer GET api/User/Login/noe/noe
-        [HttpGet, Route("LogIn/{userName}/{password}")]
-        public bool LogIn(String userName, String password)
-        {
-            LoginUser loginUser = new LoginUser();
-            loginUser.userName = userName;
-            loginUser.password = password;
-
-            bool ok = dbWishList.UserInDb(loginUser);
-
-            return ok;
-        }*/
-
-        /* GET api/User
         public HttpResponseMessage Get()
         {
             List<User> allUsers = dbWishList.GetAllUsers();
 
             var Json = new JavaScriptSerializer();
             string JsonString = Json.Serialize(allUsers);
-
-            return new HttpResponseMessage()
-            {
-                Content = new StringContent(JsonString, Encoding.UTF8, "application/json"),
-                StatusCode = HttpStatusCode.OK
-            };
-        }*/
-
-        /* GET api/User/noe/noeannet
-        [Route("{userName}/{password}")]
-        public HttpResponseMessage Get(String userName, String password)
-        {
-            LoginUser loginUser = new LoginUser();
-            loginUser.userName = userName;
-            loginUser.password = password;
-
-            User user = dbWishList.GetUserByLogin(loginUser);
-
-            if(user == null)
-            {
-                return new HttpResponseMessage()
-                {
-                    StatusCode = HttpStatusCode.NotFound,
-                    Content = new StringContent("Kunne ikke finne denne brukeren i databasen.")
-                };
-            }
-
-            var Json = new JavaScriptSerializer();
-            string JsonString = Json.Serialize(user);
-
-            return new HttpResponseMessage()
-            {
-                Content = new StringContent(JsonString, Encoding.UTF8, "application/json"),
-                StatusCode = HttpStatusCode.OK
-            };
-        }*/
-
-        /*
-        // GET api/User/loginUser
-        public HttpResponseMessage Get(LoginUser loginUser)
-        {
-            User user = dbWishList.GetUserByLogin(loginUser);
-
-            if (user == null)
-            {
-                return new HttpResponseMessage()
-                {
-                    StatusCode = HttpStatusCode.NotFound,
-                    Content = new StringContent("Kunne ikke finne denne brukeren i databasen.")
-                };
-            }
-
-            var Json = new JavaScriptSerializer();
-            string JsonString = Json.Serialize(user);
-
-            return new HttpResponseMessage()
-            {
-                Content = new StringContent(JsonString, Encoding.UTF8, "application/json"),
-                StatusCode = HttpStatusCode.OK
-            };
-        }*/
-
-        /* GET api/User/{userName}
-        public HttpResponseMessage Get(String userName)
-        {
-            User user = dbWishList.GetUserByUserName(userName);
-
-            if (user == null)
-            {
-                return new HttpResponseMessage()
-                {
-                    StatusCode = HttpStatusCode.NotFound,
-                    Content = new StringContent("Kunne ikke finne denne brukeren i databasen.")
-                };
-            }
-
-            var Json = new JavaScriptSerializer();
-            string JsonString = Json.Serialize(user);
-
-            return new HttpResponseMessage()
-            {
-                Content = new StringContent(JsonString, Encoding.UTF8, "application/json"),
-                StatusCode = HttpStatusCode.OK
-            };
-        }*/
-
-        /* GET api/Login/LogIn/{userName}
-        [HttpGet, Route("LogIn/{userName}")]
-        public HttpResponseMessage LogIn(String userName)
-        {
-            User user = dbWishList.GetUserByUserName(userName);
-
-            if (user == null)
-            {
-                return new HttpResponseMessage()
-                {
-                    StatusCode = HttpStatusCode.NotFound,
-                    Content = new StringContent("Kunne ikke finne denne brukeren i databasen.")
-                };
-            }
-
-            var Json = new JavaScriptSerializer();
-            string JsonString = Json.Serialize(user);
 
             return new HttpResponseMessage()
             {
@@ -184,20 +55,6 @@ namespace WishListAPI.Controllers
 
                 if (ok)
                 {
-                    /*LoginUser loginUser = new LoginUser();
-                    loginUser.userName = user.userName;
-                    loginUser.password = user.password;
-                    User createdUser = dbWishList.GetUserByLogin(loginUser);
-
-                    var Json = new JavaScriptSerializer();
-                    string JsonString = Json.Serialize(createdUser);
-
-                    return new HttpResponseMessage()
-                    {
-                        Content = new StringContent(JsonString, Encoding.UTF8, "application/json"),
-                        StatusCode = HttpStatusCode.OK
-                    };*/
-
                     return new HttpResponseMessage()
                     {
                         StatusCode = HttpStatusCode.OK

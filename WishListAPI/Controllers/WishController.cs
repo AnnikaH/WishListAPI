@@ -33,21 +33,6 @@ namespace WishListAPI.Controllers
         }
         */
 
-        // GET api/Wish/GetAllWishesForList/5
-        public HttpResponseMessage GetAllWishesForList(int id)
-        {
-            List<Wish> allWishesForList = dbWishList.GetAllWishesForList(id);
-
-            var Json = new JavaScriptSerializer();
-            string JsonString = Json.Serialize(allWishesForList);
-
-            return new HttpResponseMessage()
-            {
-                Content = new StringContent(JsonString, Encoding.UTF8, "application/json"),
-                StatusCode = HttpStatusCode.OK
-            };
-        }
-
         // GET api/Wish/Get/5
         public HttpResponseMessage Get(int id)
         {

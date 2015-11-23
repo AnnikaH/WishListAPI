@@ -25,27 +25,6 @@ namespace WishListAPI
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
-            /*
-            config.Routes.MapHttpRoute(
-                name: "DefaultApiWithAction",
-                routeTemplate: "api/{controller}/{action}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );*/
-
-            /* Fungerer:
-            config.Routes.MapHttpRoute(
-                name: "DefaultApiLogIn",
-                routeTemplate: "api/{controller}/LogIn/{userName}/{password}",
-                defaults: new { id = RouteParameter.Optional }
-            );*/
-
-            /* Because of Login:
-            config.Routes.MapHttpRoute(
-                name: "DefaultApiLogIn",
-                routeTemplate: "api/{controller}/LogIn/{userName}",
-                defaults: new { userName = RouteParameter.Optional }
-            );*/
         }
     }
 }
