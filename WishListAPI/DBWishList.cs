@@ -621,6 +621,36 @@ namespace WishListAPI
             }
         }
 
+        public List<Sharing> GetAllSharingsFromUserId(int id)
+        {
+            try
+            {
+                List<Sharings> allSharings = db.Sharings.ToList();
+                List<Sharing> selectedSharings = new List<Sharing>();
+
+                foreach(var oneDbSharing in allSharings)
+                {
+                    if(oneDbSharing.UserId == id)
+                    {
+                        Sharing oneSharing = new Sharing();
+                        oneSharing.id = oneDbSharing.ID;
+                        oneSharing.userId = oneDbSharing.UserId;
+                        oneSharing.wishListId = oneDbSharing.WishListId;
+
+                        selectedSharings.Add(oneSharing);
+                    }
+                }
+
+                return selectedSharings;
+            }
+            catch (Exception e)
+            {
+                writeToLog(e);
+                List<Sharing> selectedSharings = new List<Sharing>();
+                return selectedSharings;
+            }
+        }
+
         public Sharing GetSharing(int id)
         {
             try
