@@ -16,8 +16,7 @@ namespace WishListAPI.Controllers
     {
         DBWishList dbWishList = new DBWishList();
         
-        /*
-        // GET api/Tip/GetAllWishTips
+        // GET api/Tip
         public HttpResponseMessage GetAllWishTips()
         {
             List<WishTip> allWishTips = dbWishList.GetAllWishTips();
@@ -31,39 +30,8 @@ namespace WishListAPI.Controllers
                 StatusCode = HttpStatusCode.OK
             };
         }
-        */
 
-        // GET api/Tip/GetAllWishTipsForSender/5
-        public HttpResponseMessage GetAllWishTipsForSender(int id)
-        {
-            List<WishTip> allWishTipsForSender = dbWishList.GetAllWishTipsForSender(id);
-
-            var Json = new JavaScriptSerializer();
-            string JsonString = Json.Serialize(allWishTipsForSender);
-
-            return new HttpResponseMessage()
-            {
-                Content = new StringContent(JsonString, Encoding.UTF8, "application/json"),
-                StatusCode = HttpStatusCode.OK
-            };
-        }
-
-        // GET api/Tip/GetAllWishTipsForReceiver/5
-        public HttpResponseMessage GetAllWishTipsForReceiver(int id)
-        {
-            List<WishTip> allWishTipsForReceiver = dbWishList.GetAllWishTipsForReceiver(id);
-
-            var Json = new JavaScriptSerializer();
-            string JsonString = Json.Serialize(allWishTipsForReceiver);
-
-            return new HttpResponseMessage()
-            {
-                Content = new StringContent(JsonString, Encoding.UTF8, "application/json"),
-                StatusCode = HttpStatusCode.OK
-            };
-        }
-
-        // GET api/Tip/Get/5
+        // GET api/Tip/5
         public HttpResponseMessage Get(int id)
         {
             WishTip oneWishTip = dbWishList.GetWishTip(id);

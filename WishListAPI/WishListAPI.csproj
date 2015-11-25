@@ -129,6 +129,7 @@
     <Compile Include="Controllers\SharingController.cs" />
     <Compile Include="Controllers\SharingHelperController.cs" />
     <Compile Include="Controllers\TipController.cs" />
+    <Compile Include="Controllers\TipHelperController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserHelperController.cs" />
     <Compile Include="Controllers\WishController.cs" />
