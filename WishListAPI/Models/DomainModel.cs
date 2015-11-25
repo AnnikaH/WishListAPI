@@ -83,6 +83,8 @@ namespace WishListAPI.Models
         [Required]
         [RegularExpression("^[0-9]{1,10}$")]
         public int wishListId { get; set; } // foreign key from WishList
+
+        public bool bought { get; set; }
     }
 
     public class WishList
@@ -109,5 +111,8 @@ namespace WishListAPI.Models
         [Required]
         [RegularExpression("^[0-9]{1,10}$")]
         public int wishListId { get; set; } // foreign key from WishList
+
+        [Required]
+        public bool confirmed { get; set; } // if owner has accepted the request
     }
 }

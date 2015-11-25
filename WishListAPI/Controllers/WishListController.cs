@@ -16,8 +16,7 @@ namespace WishListAPI.Controllers
     {
         DBWishList dbWishList = new DBWishList();
 
-        /*
-        // GET api/WishList/GetAllWishLists
+        // GET api/WishList
         public HttpResponseMessage GetAllWishLists()
         {
             List<WishList> allWishLists = dbWishList.GetAllWishLists();
@@ -31,7 +30,6 @@ namespace WishListAPI.Controllers
                 StatusCode = HttpStatusCode.OK
             };
         }
-        */
 
         // GET api/WishList/5
         public HttpResponseMessage Get(int id)

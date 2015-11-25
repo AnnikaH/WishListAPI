@@ -6,6 +6,14 @@ App.controller("wishListController", function ($scope, $http) {
 
     var urlUser = '/api/User';
 
+    $http.get(urlUser).
+        success(function (users) {
+            $scope.loading = true;
+        }).
+        error(function (data, status) {
+            
+        });
+
     /* Fungerer:
     $http.get(urlUser + "/Get/" + 1).
         success(function (user) {
@@ -96,7 +104,7 @@ App.controller("wishListController", function ($scope, $http) {
               
           });
     */
-    // LoginUser in Get-method:
+    /* LoginUser in Get-method:
     var login = {
         userName: "noen",
         password: "måinneholdeåttetegn"
@@ -108,5 +116,5 @@ App.controller("wishListController", function ($scope, $http) {
           }).
           error(function (data, status) {
 
-          });
+          });*/
 });

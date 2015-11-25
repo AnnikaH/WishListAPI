@@ -31,5 +31,26 @@ namespace WishListAPI.Controllers
                 StatusCode = HttpStatusCode.OK
             };
         }
+
+        // POST api/SharingHelper
+        public HttpResponseMessage Post(Sharing sharing)
+        {
+            if (ModelState.IsValid)
+            {
+                bool exists = dbWishList.SharingAlreadyExists(sharing);
+
+                return new HttpResponseMessage()
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(exists + "")
+                };
+            }
+
+            return new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.NotFound,
+                Content = new StringContent("Kunne ikke sette inn denne brukeren i databasen.")
+            };
+        }
     }
 }

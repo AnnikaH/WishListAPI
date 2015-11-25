@@ -49,6 +49,7 @@ namespace WishListAPI.Models
         public String Where { get; set; }
         public String Link { get; set; }
         public int WishListId { get; set; } // foreign key from WishList
+        public bool Bought { get; set; }
 
         public virtual WishLists WishList { get; set; }
     }
@@ -70,6 +71,7 @@ namespace WishListAPI.Models
         public int ID { get; set; }
         public int UserId { get; set; }     // foreign key from User
         public int WishListId { get; set; } // foreign key from WishList
+        public bool Confirmed { get; set; } // if owner has accepted the request
 
         public virtual Users User { get; set; }
         public virtual WishLists WishList { get; set; }

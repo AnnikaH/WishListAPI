@@ -437,7 +437,8 @@ namespace WishListAPI
                     price = w.Price,
                     where = w.Where,
                     link = w.Link,
-                    wishListId = w.WishListId
+                    wishListId = w.WishListId,
+                    bought = w.Bought
                 }).ToList();
 
                 return allWishes;
@@ -470,6 +471,7 @@ namespace WishListAPI
                         wish.where = wishDb.Where;
                         wish.link = wishDb.Link;
                         wish.wishListId = wishDb.WishListId;
+                        wish.bought = wishDb.Bought;
 
                         outputWishes.Add(wish);
                     }
@@ -503,7 +505,8 @@ namespace WishListAPI
                     price = oneDbWish.Price,
                     where = oneDbWish.Where,
                     link = oneDbWish.Link,
-                    wishListId = oneDbWish.WishListId
+                    wishListId = oneDbWish.WishListId,
+                    bought = oneDbWish.Bought
                 };
 
                 return oneWish;
@@ -528,7 +531,8 @@ namespace WishListAPI
                 Where = wish.where,
                 Link = wish.link,
                 WishListId = wish.wishListId,
-                WishList = wishList
+                WishList = wishList,
+                Bought = wish.bought
             };
 
             try
@@ -563,6 +567,7 @@ namespace WishListAPI
             foundWish.Link = wish.link;
             foundWish.WishListId = wish.wishListId;
             foundWish.WishList = wishList;
+            foundWish.Bought = wish.bought;
 
             try
             {
@@ -608,7 +613,8 @@ namespace WishListAPI
                 {
                     id = s.ID,
                     userId = s.UserId,
-                    wishListId = s.WishListId
+                    wishListId = s.WishListId,
+                    confirmed = s.Confirmed
                 }).ToList();
 
                 return allSharings;
@@ -636,6 +642,7 @@ namespace WishListAPI
                         oneSharing.id = oneDbSharing.ID;
                         oneSharing.userId = oneDbSharing.UserId;
                         oneSharing.wishListId = oneDbSharing.WishListId;
+                        oneSharing.confirmed = oneDbSharing.Confirmed;
 
                         selectedSharings.Add(oneSharing);
                     }
@@ -664,7 +671,8 @@ namespace WishListAPI
                 {
                     id = oneDbSharing.ID,
                     userId = oneDbSharing.UserId,
-                    wishListId = oneDbSharing.WishListId
+                    wishListId = oneDbSharing.WishListId,
+                    confirmed = oneDbSharing.Confirmed
                 };
 
                 return oneSharing;
@@ -673,6 +681,29 @@ namespace WishListAPI
             {
                 writeToLog(e);
                 return null;
+            }
+        }
+
+        public bool SharingAlreadyExists(Sharing sharing)
+        {
+            try
+            {
+                List<Sharings> sharings = db.Sharings.ToList();
+
+                foreach(var s in sharings)
+                {
+                    if(s.UserId == sharing.userId && s.WishListId == sharing.wishListId)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                writeToLog(e);
+                return false;
             }
         }
 
@@ -686,7 +717,8 @@ namespace WishListAPI
                 UserId = sharing.userId,
                 WishListId = sharing.wishListId,
                 User = user,
-                WishList = wishList
+                WishList = wishList,
+                Confirmed = sharing.confirmed
             };
 
             try
@@ -718,6 +750,7 @@ namespace WishListAPI
             foundSharing.WishListId = sharing.wishListId;
             foundSharing.User = user;
             foundSharing.WishList = wishList;
+            foundSharing.Confirmed = sharing.confirmed;
 
             try
             {
